@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#000000</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#d81b60</color>
+    <color name="background_material_light">#222222</color>
+    <color name="fuckinGRAY">#4c4c4c</color>
+    <color name="dayNotSelected">#55d81b60</color>
+    <color name="daySelected">#d81b60</color>
 </resources>

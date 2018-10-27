@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-public class AlarmSettings extends AppCompatActivity {
+public class AlarmSettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -14,20 +14,20 @@ public class AlarmSettings extends AppCompatActivity {
     }
 
     /* Cancel changes
-    *   - Go back to MainAlarms*/
+    *   - Go back to MainAlarmsActivity*/
     public void cancel(View view) {
         Intent intent;
-        intent = new Intent(this, MainAlarms.class);
+        intent = new Intent(this, MainAlarmsActivity.class);
         startActivity(intent);
     }
 
     /* Save changes
-     *   - Update alarm's settings, go back to MainAlarms*/
+     *   - Update alarm's settings, go back to MainAlarmsActivity*/
     public void save(View view) {
         // DO SAVE STUFF
 
         Intent intent;
-        intent = new Intent(this, MainAlarms.class);
+        intent = new Intent(this, MainAlarmsActivity.class);
         startActivity(intent);
     }
 }

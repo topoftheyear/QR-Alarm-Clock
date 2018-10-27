@@ -11,19 +11,21 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".MainAlarms">
+        <activity android:name=".MainAlarmsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".AlarmSettings"
-                  android:parentActivityName=".MainAlarms">
+        <activity
+                android:name=".AlarmSettingsActivity"
+                android:parentActivityName=".MainAlarmsActivity">
+
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value=".MainAlarms"/>
+                    android:value=".MainAlarmsActivity"/>
         </activity>
     </application>
 

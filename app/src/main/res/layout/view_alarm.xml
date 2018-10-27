@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:onClick="openSettings"
+    app:cardBackgroundColor="@color/colorPrimaryDark"
+    app:cardCornerRadius="0dp"
+    app:cardElevation="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_alarm_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="X:XX"
+                android:textColor="@android:color/white"
+                android:textSize="42sp"
+                android:textStyle="bold" />
+
+            <Switch
+                android:id="@+id/sw_enabled"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|right"
+                android:checked="true" />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp">
+            <!-- Days -->
+            <TextView
+                android:id="@+id/daySun"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="16dp"
+                android:text="Sun"
+                android:textColor="@color/dayNotSelected"
+                app:layout_constraintStart_toStartOf="parent"
+
+                app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+            <TextView
+                android:id="@+id/dayMon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="4dp"
+                android:text="Mon"
+                android:textColor="@color/daySelected"
+                app:layout_constraintStart_toEndOf="@+id/daySun"
+                app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+            <TextView
+                android:id="@+id/dayTues"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="4dp"
+                android:text="Tues"
+                android:textColor="@color/daySelected" />
+
+            <TextView
+                android:id="@+id/dayWeds"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="4dp"
+                android:text="Weds"
+                android:textColor="@color/daySelected" />
+
+            <TextView
+                android:id="@+id/dayThur"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="4dp"
+                android:text="Thur"
+                android:textColor="@color/daySelected" />
+
+            <TextView
+                android:id="@+id/dayFri"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="4dp"
+                android:text="Fri"
+                android:textColor="@color/daySelected" />
+
+            <TextView
+                android:id="@+id/daySat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="4dp"
+                android:text="Sat"
+                android:textColor="@color/dayNotSelected" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</android.support.v7.widget.CardView>

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="4dp"
     android:onClick="openSettings"
     app:cardBackgroundColor="@color/colorPrimaryDark"
     app:cardCornerRadius="0dp"
@@ -13,6 +15,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <!-- Time and Switch -->
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -21,7 +24,8 @@
                 android:id="@+id/tv_alarm_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="X:XX"
+                android:layout_marginLeft="16dp"
+                android:text="XX:XX"
                 android:textColor="@android:color/white"
                 android:textSize="42sp"
                 android:textStyle="bold" />
@@ -31,21 +35,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|right"
-                android:checked="true" />
+                android:layout_marginRight="8dp"
+                android:checked="true"
+                android:padding="16dp" />
 
         </FrameLayout>
 
+        <!-- Repeated Days -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp">
+            android:layout_marginLeft="8dp"
+            android:layout_marginBottom="4dp">
             <!-- Days -->
             <TextView
                 android:id="@+id/daySun"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentBottom="true"
                 android:layout_marginStart="16dp"
                 android:text="Sun"
                 android:textColor="@color/dayNotSelected"

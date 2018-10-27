@@ -17,18 +17,6 @@ public class AlarmSettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_alarm_settings);
     }
 
-//    Spinner spinner = (Spinner) findViewById(R.id.spinner);
-//
-//    // Create an ArrayAdapter using the string array and a default spinner layout
-//    ArrayAdapter<CharSequence> adapter = createFromResource(this,
-//            R.array.sounds_array, android.R.layout.simple_spinner_item);
-//
-//    // Specify the layout to use when the list of choices appears
-//    adapter.setDropDownViewResource();
-//
-//    // Apply the adapter to the spinner
-//    spinner.setAdapter(adapter);
-
     /* Cancel changes
     *   - Go back to MainAlarmsActivity*/
     public void cancel(View view) {

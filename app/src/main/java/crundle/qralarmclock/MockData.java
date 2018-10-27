@@ -8,9 +8,10 @@ public class MockData {
     public static List<Alarm> getMockAlarms(){
         ArrayList<Alarm> alarms = new ArrayList<Alarm>();
 
+        //IDK HOW TO GIT
 
         Alarm alarm1 = new Alarm();
-        alarm1.setAlarmTime("5:00");
+        alarm1.setAlarmTime("7:00");
         alarms.add(alarm1);
         alarms.add(alarm1);
         alarms.add(alarm1);

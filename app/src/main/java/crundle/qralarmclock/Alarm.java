@@ -5,7 +5,9 @@ import java.util.List;
 public class Alarm {
     private String alarmTime;
     private boolean isActive;
-    private List<String> daysActive;
+
+    // 0 = Sun, 1 = Mon, 2 = Tues, etc.
+    boolean[] daysActive = new boolean[7];
 
     public String getAlarmTime() {
         return alarmTime;
@@ -23,11 +25,17 @@ public class Alarm {
         isActive = active;
     }
 
-    public List<String> getDaysActive() {
-        return daysActive;
+    public boolean getDaysActive(int i) {
+        return daysActive[i];
     }
 
-    public void setDaysActive(List<String> daysActive) {
-        this.daysActive = daysActive;
+    // i = day of the week.
+    // 0 = Sun, 1 = Mon, 2 = Tues, etc.
+    public void setDaysActive(int i) {
+        if (daysActive[i] == false){
+            daysActive[i] = true;
+        } else {
+            daysActive[i] = false;
+        }
     }
 }

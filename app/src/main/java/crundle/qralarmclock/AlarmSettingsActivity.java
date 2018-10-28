@@ -9,6 +9,9 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
+
+import java.sql.Time;
 
 import static android.widget.ArrayAdapter.*;
 
@@ -52,6 +55,17 @@ public class AlarmSettingsActivity extends AppCompatActivity {
      */
     public void save(View view) {
         // DO SAVE STUFF
+
+        // Make mock alarm
+        MockData md = new MockData();
+        Alarm a = new Alarm();
+
+        TimePicker tp = (TimePicker) findViewById(R.id.timePicker1);
+
+        a.setAlarmTime(Integer.toString(tp.getCurrentHour()) + ":" + Integer.toString(tp.getCurrentMinute()));
+        a.setActive(true);
+
+        md.addAlarmToMockData(a);
 
         Intent intent;
         intent = new Intent(this, MainAlarmsActivity.class);

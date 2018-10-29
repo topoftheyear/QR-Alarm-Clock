@@ -62,7 +62,15 @@ public class AlarmSettingsActivity extends AppCompatActivity {
 
         TimePicker tp = (TimePicker) findViewById(R.id.timePicker1);
 
-        a.setAlarmTime(Integer.toString(tp.getCurrentHour()) + ":" + Integer.toString(tp.getCurrentMinute()));
+        // getCurrentMinute will return only 1 digit when <10,
+        // so time ends up looking like "5:0"
+        // Add in a 0 before single digit minutes
+        String min = Integer.toString(tp.getCurrentMinute());
+        if (min.length() == 1) {
+            min = "0" + min;
+        }
+
+        a.setAlarmTime(Integer.toString(tp.getCurrentHour()) + ":" + min);
         a.setActive(true);
 
         md.addAlarmToMockData(a);

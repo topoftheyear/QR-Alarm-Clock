@@ -1,8 +1,9 @@
 package crundle.qralarmclock;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Alarm {
+public class Alarm implements Serializable {
     private String alarmTime;
     private boolean isActive;
 

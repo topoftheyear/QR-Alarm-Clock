@@ -6,6 +6,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import java.io.File;
+import java.io.IOException;
+
 public class MainAlarmsActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
 
@@ -14,13 +17,20 @@ public class MainAlarmsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_alarms);
 
-        setupRecyclerView();
+        try {
+            setupRecyclerView();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void setupRecyclerView() {
+    private void setupRecyclerView() throws IOException, ClassNotFoundException {
+
         recyclerView  = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new AlarmAdapter(MockData.getMockAlarms()));
+        recyclerView.setAdapter(new AlarmAdapter(MockData.getMockAlarms(this)));
     }
 
     public void openSettings(View view) {

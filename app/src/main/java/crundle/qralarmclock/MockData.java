@@ -1,5 +1,8 @@
 package crundle.qralarmclock;
 
+import android.content.Context;
+
+import java.io.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,9 +15,20 @@ public class MockData {
     private static ArrayList<Alarm> alarms = new ArrayList<Alarm>();
     private static int i = 0;
 
-
-    public static List<Alarm> getMockAlarms(){
-        generateMockAlarms();
+    public static List<Alarm> getMockAlarms(Context context) throws IOException, ClassNotFoundException {
+        File directory = context.getFilesDir();
+        File file = new File(directory, "AlarmList.txt");
+        FileInputStream fi = new FileInputStream(file);
+        ObjectInputStream oi = new ObjectInputStream(fi);
+        Boolean keepGoing = true;
+        try{
+            while(keepGoing){
+                alarms.add((Alarm) oi.readObject());
+            }
+        }
+        catch (EOFException e) {
+            keepGoing = false;
+        }
 
         return alarms;
     }
@@ -34,6 +48,7 @@ public class MockData {
             i++;
         }
     }
+
 
     public void addAlarmToMockData(Alarm alarm) {
         alarms.add(alarm);

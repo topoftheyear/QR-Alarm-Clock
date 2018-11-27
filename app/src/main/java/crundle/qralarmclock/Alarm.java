@@ -1,9 +1,12 @@
 package crundle.qralarmclock;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
-public class Alarm implements Serializable {
+public class Alarm implements Comparable, Serializable {
     private String alarmTime;
     private boolean isActive;
 
@@ -38,5 +41,32 @@ public class Alarm implements Serializable {
         } else {
             daysActive[i] = false;
         }
+    }
+
+    //returns 1 if this is after a, 0 if equal, and -1 if this is before a,
+    @Override
+    public int compareTo(Object o){
+        Alarm a = (Alarm)o;
+        String thisTime = alarmTime;
+        String aTime = a.getAlarmTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        Date d1 = null;
+        Date d2 = null;
+        try {
+            d1 = sdf.parse(thisTime);
+            d2 = sdf.parse(aTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        long difference = d2.getTime() - d1.getTime();
+        int result;
+        if(difference > 0)
+            result = -1;
+        else if(difference < 0)
+            result = 1;
+        else
+            result = 0;
+        return result;
     }
 }

@@ -16,7 +16,13 @@ public class MainAlarmsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_alarms);
-
+        File directory = this.getFilesDir();
+        File file = new File(directory, "AlarmList.txt");
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         try {
             setupRecyclerView();
         } catch (IOException e) {
@@ -30,7 +36,7 @@ public class MainAlarmsActivity extends AppCompatActivity {
 
         recyclerView  = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new AlarmAdapter(MockData.getMockAlarms(this)));
+        recyclerView.setAdapter(new AlarmAdapter(AlarmAdapter.getAlarms(this)));
     }
 
     public void openSettings(View view) {

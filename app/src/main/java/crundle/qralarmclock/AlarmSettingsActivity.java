@@ -2,24 +2,18 @@ package crundle.qralarmclock;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
 import java.io.*;
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 
-import static android.widget.ArrayAdapter.*;
-
-public class AlarmSettingsActivity extends AppCompatActivity {
+public class AlarmSettingsActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +54,6 @@ public class AlarmSettingsActivity extends AppCompatActivity {
 
         // DO SAVE STUFF
         // Make mock alarm
-        MockData md = new MockData();
         Alarm a = new Alarm();
 
         TimePicker tp = (TimePicker) findViewById(R.id.timePicker1);
@@ -75,8 +68,7 @@ public class AlarmSettingsActivity extends AppCompatActivity {
 
         a.setAlarmTime(Integer.toString(tp.getCurrentHour()) + ":" + min);
         a.setActive(true);
-        doSave(a);
-        md.addAlarmToMockData(a);
+        saveFile(a);
 
 
         Intent intent;
@@ -84,7 +76,7 @@ public class AlarmSettingsActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void doSave(Alarm alarm) throws IOException, ClassNotFoundException {
+    public void saveFile(Alarm alarm) throws IOException, ClassNotFoundException {
         ArrayList<Alarm> alarms = getAlarms();
         boolean success = false;
         for(int i = 0; i < alarms.size();i++){
@@ -98,13 +90,7 @@ public class AlarmSettingsActivity extends AppCompatActivity {
             alarms.add(alarm);
         }
 
-        File alarmList = new File(this.getFilesDir(), "AlarmList.txt");
-        if (alarmList.createNewFile())
-        {
-            System.out.println("File is created!");
-        } else {
-            System.out.println("File already exists.");
-        }
+        Collections.sort(alarms);
 
         FileOutputStream fos = openFileOutput("AlarmList.txt", Context.MODE_PRIVATE);;
         ObjectOutputStream os = new ObjectOutputStream(fos);
@@ -121,10 +107,12 @@ public class AlarmSettingsActivity extends AppCompatActivity {
         ArrayList<Alarm> alarms = new ArrayList<Alarm>();
         File directory = this.getFilesDir();
         File file = new File(directory, "AlarmList.txt");
-        FileInputStream fi = new FileInputStream(file);
-        ObjectInputStream oi = new ObjectInputStream(fi);
         Boolean keepGoing = true;
+        FileInputStream fi = null;
+        ObjectInputStream oi = null;
         try{
+            fi = new FileInputStream(file);
+            oi = new ObjectInputStream(fi);
             while(keepGoing){
                 alarms.add((Alarm) oi.readObject());
             }
@@ -132,9 +120,12 @@ public class AlarmSettingsActivity extends AppCompatActivity {
         catch (EOFException e) {
             keepGoing = false;
         }
+        if(fi != null)
+            fi.close();
+        if(oi != null)
+            oi.close();
 
-        fi.close();
-        oi.close();
+
         return alarms;
     }
 }

@@ -1,5 +1,6 @@
 package crundle.qralarmclock;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,10 +9,12 @@ import android.view.ViewGroup;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHolder> {
-    private final List<Alarm> alarms;
+    private List<Alarm> alarms;
 
     public AlarmAdapter(List<Alarm> alarms) {
         this.alarms = alarms;
@@ -44,5 +47,24 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
             this.tvTime = itemView.findViewById(R.id.tv_alarm_time);
             this.swEnabled = itemView.findViewById(R.id.sw_enabled);
         }
+    }
+
+    public static List<Alarm> getAlarms(Context context) throws IOException, ClassNotFoundException {
+        ArrayList<Alarm> alarms = new ArrayList<Alarm>();
+        File directory = context.getFilesDir();
+        File file = new File(directory, "AlarmList.txt");
+        FileInputStream fi = new FileInputStream(file);
+        ObjectInputStream oi = new ObjectInputStream(fi);
+        Boolean keepGoing = true;
+        try{
+            while(keepGoing){
+                alarms.add((Alarm) oi.readObject());
+            }
+        }
+        catch (EOFException e) {
+            keepGoing = false;
+        }
+
+        return alarms;
     }
 }

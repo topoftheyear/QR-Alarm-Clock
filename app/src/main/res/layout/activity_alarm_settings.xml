@@ -124,7 +124,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Sun"
-                    android:textColor="@color/dayNotSelected"
+                    android:textColor="@color/daySelected"
                     app:layout_constraintStart_toStartOf="parent" android:textSize="20sp"/>
 
             <TextView
@@ -198,7 +198,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_marginStart="4dp"
                     android:text="Sat"
-                    android:textColor="@color/dayNotSelected"
+                    android:textColor="@color/daySelected"
                     android:textSize="20sp"/>
         </LinearLayout>
 

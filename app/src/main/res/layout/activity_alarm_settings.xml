@@ -122,9 +122,9 @@
                     android:tag="0"
                     android:onClick="toggleDay"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:text="Sun"
-                    android:textColor="@color/daySelected"
+                    android:textColor="#800000"
                     app:layout_constraintStart_toStartOf="parent" android:textSize="20sp"/>
 
             <TextView
@@ -137,7 +137,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_marginStart="4dp"
                     android:text="Mon"
-                    android:textColor="@color/daySelected"
+                    android:textColor="#800000"
                     app:layout_constraintStart_toEndOf="@+id/daySun" android:textSize="20sp"/>
 
             <TextView
@@ -150,7 +150,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_marginStart="4dp"
                     android:text="Tues"
-                    android:textColor="@color/daySelected" android:textSize="20sp"/>
+                    android:textColor="#800000" android:textSize="20sp"/>
 
             <TextView
                     android:id="@+id/dayWeds3"
@@ -162,7 +162,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_marginStart="4dp"
                     android:text="Weds"
-                    android:textColor="@color/daySelected" android:textSize="20sp"/>
+                    android:textColor="#800000" android:textSize="20sp"/>
 
             <TextView
                     android:id="@+id/dayThur4"
@@ -174,7 +174,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_marginStart="4dp"
                     android:text="Thur"
-                    android:textColor="@color/daySelected" android:textSize="20sp"/>
+                    android:textColor="#800000" android:textSize="20sp"/>
 
             <TextView
                     android:id="@+id/dayFri5"
@@ -186,7 +186,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_marginStart="4dp"
                     android:text="Fri"
-                    android:textColor="@color/daySelected" android:textSize="20sp"/>
+                    android:textColor="#800000" android:textSize="20sp"/>
 
             <TextView
                     android:id="@+id/daySat6"
@@ -198,7 +198,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_marginStart="4dp"
                     android:text="Sat"
-                    android:textColor="@color/daySelected"
+                    android:textColor="#800000"
                     android:textSize="20sp"/>
         </LinearLayout>
 

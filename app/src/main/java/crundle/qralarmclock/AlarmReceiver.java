@@ -9,6 +9,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.icu.util.Calendar;
+import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -16,8 +17,8 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        String message = "Hellooo, alrm worked ----";
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        Intent intent_used = new Intent(context, ScanningCodeActivity.class);
+        context.startActivity(intent_used);
     }
 
     @TargetApi(24)

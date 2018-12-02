@@ -9,9 +9,13 @@ import java.util.List;
 public class Alarm implements Comparable, Serializable {
     private String alarmTime;
     private boolean isActive;
+    private int hour;
+    private int min;
+    private boolean AM;
 
     // 0 = Sun, 1 = Mon, 2 = Tues, etc.
-    boolean[] daysActive = new boolean[7];
+    boolean[] daysActive = new boolean[]{false,false,false,false,false,false,false};
+
 
     public String getAlarmTime() {
         return alarmTime;
@@ -19,6 +23,30 @@ public class Alarm implements Comparable, Serializable {
 
     public void setAlarmTime(String alarmTime) {
         this.alarmTime = alarmTime;
+    }
+
+    public void setHour(int a){
+        hour = a;
+    }
+
+    public int getHour(){
+        return hour;
+    }
+
+    public void setAM(boolean a){
+        AM = a;
+    }
+
+    public boolean getAM(){
+        return AM;
+    }
+
+    public void setMin(int a){
+        min = a;
+    }
+
+    public int getMin(){
+        return min;
     }
 
     public boolean isActive() {

@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
           package="crundle.qralarmclock">
-
     <application
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
@@ -27,6 +26,10 @@
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value=".MainAlarmsActivity"/>
         </activity>
+        <activity android:name=".AlarmManagerClass">
+        </activity>
+        <receiver android:name=".AlarmReceiver" android:process=":remote">
+        </receiver>
     </application>
 
 </manifest>

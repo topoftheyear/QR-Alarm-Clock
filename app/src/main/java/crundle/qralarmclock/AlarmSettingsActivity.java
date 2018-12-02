@@ -1,19 +1,28 @@
 package crundle.qralarmclock;
 
+import android.annotation.TargetApi;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.icu.util.Calendar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class AlarmSettingsActivity extends AppCompatActivity{
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,10 +40,10 @@ public class AlarmSettingsActivity extends AppCompatActivity{
         Log.d((String) tv.getTag(),"oi 12345");
         int dayNum = Integer.parseInt((String) tv.getTag()); //nasty
 
-        if (tv.getCurrentTextColor() == getResources().getColor(R.color.dayNotSelected)) {
-            tv.setTextColor(getResources().getColor(R.color.daySelected));
+        if (tv.getCurrentTextColor() == Color.parseColor("#800000")) {
+            tv.setTextColor(Color.parseColor("#FF0000"));
         } else {
-            tv.setTextColor(getResources().getColor(R.color.dayNotSelected));
+            tv.setTextColor(Color.parseColor("#800000"));
         }
     }
 
@@ -51,13 +60,10 @@ public class AlarmSettingsActivity extends AppCompatActivity{
      *   - Update alarm's settings, go back to MainAlarmsActivity
      */
     public void save(View view) throws IOException, ClassNotFoundException {
-
-        // DO SAVE STUFF
-        // Make mock alarm
         Alarm a = new Alarm();
 
         TimePicker tp = (TimePicker) findViewById(R.id.timePicker1);
-
+        LinearLayout days = (LinearLayout) findViewById(R.id.linearLayout2);
         // getCurrentMinute will return only 1 digit when <10,
         // so time ends up looking like "5:0"
         // Add in a 0 before single digit minutes
@@ -65,9 +71,34 @@ public class AlarmSettingsActivity extends AppCompatActivity{
         if (min.length() == 1) {
             min = "0" + min;
         }
+        a.setMin(tp.getCurrentMinute());
+        int hour = tp.getCurrentHour();
+        if(hour > 12) {
+            a.setHour(hour - 12);
+            a.setAM(false);
+        }
+        else{
+            a.setHour(hour);
+            a.setAM(true);
+        }
 
+        // get the days that are active
+        for (int i = 0; i < days.getChildCount(); i++) {
+            View v = days.getChildAt(i);
+
+            if (v instanceof TextView) {
+                int tag = Integer.parseInt((String)v.getTag());
+                if(((TextView) v).getCurrentTextColor() == Color.parseColor("#FF0000")) {
+                    a.setDaysActive(tag);
+                }
+            }
+        }
+
+        AlarmReceiver aReceiver = new AlarmReceiver();
         a.setAlarmTime(Integer.toString(tp.getCurrentHour()) + ":" + min);
         a.setActive(true);
+        Toast.makeText(this, "Alarm set", Toast.LENGTH_LONG).show();
+        aReceiver.setAlarm(this, a);
         saveFile(a);
 
 
@@ -92,7 +123,7 @@ public class AlarmSettingsActivity extends AppCompatActivity{
 
         Collections.sort(alarms);
 
-        FileOutputStream fos = openFileOutput("AlarmList.txt", Context.MODE_PRIVATE);;
+        FileOutputStream fos = openFileOutput("AlarmList.txt", Context.MODE_PRIVATE);
         ObjectOutputStream os = new ObjectOutputStream(fos);
 
         for(Alarm a:alarms){
@@ -128,4 +159,7 @@ public class AlarmSettingsActivity extends AppCompatActivity{
 
         return alarms;
     }
+
+
+
 }

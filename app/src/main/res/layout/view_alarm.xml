@@ -19,16 +19,24 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+            <ImageButton
+                    android:layout_width="28dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_height="32dp"
+                    android:alpha="0.5"
+                    app:srcCompat="@android:drawable/ic_delete"
+                    android:id="@+id/imageButton" android:background="@android:color/black"/>
 
             <TextView
-                android:id="@+id/tv_alarm_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:text="XX:XX"
-                android:textColor="@android:color/white"
-                android:textSize="42sp"
-                android:textStyle="bold" />
+                    android:id="@+id/tv_alarm_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:text="XX:XX"
+                    android:textColor="@android:color/white"
+                    android:textSize="42sp"
+                    android:textStyle="bold"/>
 
             <Switch
                 android:id="@+id/sw_enabled"

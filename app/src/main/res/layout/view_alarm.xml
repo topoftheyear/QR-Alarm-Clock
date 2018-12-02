@@ -64,9 +64,7 @@
                 android:layout_marginStart="16dp"
                 android:text="Sun"
                 android:textColor="@color/dayNotSelected"
-                app:layout_constraintStart_toStartOf="parent"
-
-                app:layout_constraintTop_toBottomOf="@+id/textView5" />
+                app:layout_constraintStart_toStartOf="parent"/>
 
             <TextView
                 android:id="@+id/dayMon"
@@ -77,8 +75,7 @@
                 android:layout_marginStart="4dp"
                 android:text="Mon"
                 android:textColor="@color/daySelected"
-                app:layout_constraintStart_toEndOf="@+id/daySun"
-                app:layout_constraintTop_toBottomOf="@+id/textView5" />
+                app:layout_constraintStart_toEndOf="@+id/daySun"/>
 
             <TextView
                 android:id="@+id/dayTues"

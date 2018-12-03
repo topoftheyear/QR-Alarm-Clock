@@ -1,12 +1,9 @@
 package crundle.qralarmclock;
 
 import android.annotation.TargetApi;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.icu.util.Calendar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,24 +17,59 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class AlarmSettingsActivity extends AppCompatActivity{
-
+public class AlarmSettingsActivity extends AppCompatActivity {
+    public static ArrayList<Alarm> alarms = new ArrayList<Alarm>();
+    private Alarm currentAlarm = null;
+    private Integer currentAlarmIndex = null;
 
     @Override
+    @TargetApi(23)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_settings);
+        Intent intent = getIntent();
+        if (intent.hasExtra("alarm")) {
+            String alarmTime = intent.getStringExtra("alarm");
+            for (int i = 0; i < alarms.size(); i++) {
+                if (alarms.get(i).getAlarmTime().equals(alarmTime)) {
+                    currentAlarm = alarms.get(i);
+                    currentAlarmIndex = i;
+                }
+            }
+            TimePicker tp = (TimePicker) findViewById(R.id.timePicker1);
+            LinearLayout daysView = (LinearLayout) findViewById(R.id.linearLayout2);
+
+            if (currentAlarm.getAM())
+                tp.setHour(currentAlarm.getHour());
+            else
+                tp.setHour(currentAlarm.getHour() + 12);
+            tp.setMinute(currentAlarm.getMin());
+
+            boolean[] days = currentAlarm.daysActive;
+            for (int i = 0; i < daysView.getChildCount(); i++) {
+                View v = daysView.getChildAt(i);
+                if (days[i]) {
+                    ((TextView) v).setTextColor(Color.parseColor("#FF0000"));
+                } else {
+                    ((TextView) v).setTextColor(Color.parseColor("#800000"));
+                }
+
+            }
+        } else {
+            currentAlarm = null;
+            currentAlarmIndex = null;
+        }
     }
 
     /* Activate/Deactivate RepeatedDays
      * JUST CHANGES COLOR at the moment
      * Should eventually set relevant alarm's settings
      */
-    public void toggleDay(View view){
+    public void toggleDay(View view) {
         TextView tv = (TextView) view;
 
         // Get day number from TextView tag, convert to int
-        Log.d((String) tv.getTag(),"oi 12345");
+        Log.d((String) tv.getTag(), "oi 12345");
         int dayNum = Integer.parseInt((String) tv.getTag()); //nasty
 
         if (tv.getCurrentTextColor() == Color.parseColor("#800000")) {
@@ -48,8 +80,8 @@ public class AlarmSettingsActivity extends AppCompatActivity{
     }
 
     /* Cancel changes
-    *   - Go back to MainAlarmsActivity
-    */
+     *   - Go back to MainAlarmsActivity
+     */
     public void cancel(View view) {
         Intent intent;
         intent = new Intent(this, MainAlarmsActivity.class);
@@ -59,7 +91,7 @@ public class AlarmSettingsActivity extends AppCompatActivity{
     /* Save changes
      *   - Update alarm's settings, go back to MainAlarmsActivity
      */
-    public void save(View view) throws IOException, ClassNotFoundException {
+    public void save(View view){
         Alarm a = new Alarm();
 
         TimePicker tp = (TimePicker) findViewById(R.id.timePicker1);
@@ -71,95 +103,109 @@ public class AlarmSettingsActivity extends AppCompatActivity{
         if (min.length() == 1) {
             min = "0" + min;
         }
-        a.setMin(tp.getCurrentMinute());
         int hour = tp.getCurrentHour();
-        if(hour > 12) {
-            a.setHour(hour - 12);
-            a.setAM(false);
-        }
-        else{
-            a.setHour(hour);
-            a.setAM(true);
-        }
+
 
         // get the days that are active
         for (int i = 0; i < days.getChildCount(); i++) {
             View v = days.getChildAt(i);
 
             if (v instanceof TextView) {
-                int tag = Integer.parseInt((String)v.getTag());
-                if(((TextView) v).getCurrentTextColor() == Color.parseColor("#FF0000")) {
+                int tag = Integer.parseInt((String) v.getTag());
+                if (((TextView) v).getCurrentTextColor() == Color.parseColor("#FF0000")) {
                     a.setDaysActive(tag);
                 }
             }
         }
 
-        AlarmReceiver aReceiver = new AlarmReceiver();
-        a.setAlarmTime(Integer.toString(tp.getCurrentHour()) + ":" + min);
-        a.setActive(true);
-        Toast.makeText(this, "Alarm set", Toast.LENGTH_LONG).show();
-        aReceiver.setAlarm(this, a);
-        saveFile(a);
+        if (hour > 12) {
+            a.setHour(hour - 12);
+            a.setAM(false);
+        } else {
+            a.setHour(hour);
+            a.setAM(true);
+        }
 
+        a.setMin(tp.getCurrentMinute());
+        a.setAlarmTime(Integer.toString(tp.getCurrentHour()) + ":" + min);
+        Log.e("DEBUGGING", Integer.toString(tp.getCurrentHour()) + ":" + min);
+        Toast.makeText(this, "Alarm Saved", Toast.LENGTH_LONG).show();
+
+        for (int i = 0; i < alarms.size(); i++) {
+            if (alarms.get(i).getAlarmTime().equals(tp.getCurrentHour() + ":" + min)) {
+                deleteAlarm(this, alarms.get(i));
+                break;
+            }
+        }
+
+        a.setActive(true);
+        if (!(currentAlarm == null)) {
+            a.setActive(currentAlarm.isActive());
+            deleteAlarm(this, currentAlarm);
+        }
+        alarms.add(a);
+        if(a.isActive()) {
+            AlarmReceiver.setAndroidAlarm(this, a);
+
+            Log.e("DEBUGGING", "alarm set");
+        }
+        saveFile(this);
 
         Intent intent;
         intent = new Intent(this, MainAlarmsActivity.class);
         startActivity(intent);
     }
 
-    public void saveFile(Alarm alarm) throws IOException, ClassNotFoundException {
-        ArrayList<Alarm> alarms = getAlarms();
-        boolean success = false;
-        for(int i = 0; i < alarms.size();i++){
-            Alarm a = alarms.get(i);
-            if(alarm.getAlarmTime().equals(a.getAlarmTime())){
-                alarms.set(i, alarm);
-                success = true;
-            }
-        }
-        if(!success) {
-            alarms.add(alarm);
-        }
-
+    public static void saveFile(Context context) {
         Collections.sort(alarms);
 
-        FileOutputStream fos = openFileOutput("AlarmList.txt", Context.MODE_PRIVATE);
-        ObjectOutputStream os = new ObjectOutputStream(fos);
+        FileOutputStream fos = null;
+        try {
+            fos = context.openFileOutput("AlarmList.txt", Context.MODE_PRIVATE);
+            ObjectOutputStream os = new ObjectOutputStream(fos);
 
-        for(Alarm a:alarms){
-            os.writeObject(a);
+            for (Alarm a : alarms) {
+                os.writeObject(a);
+            }
+
+            os.close();
+            fos.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        os.close();
-        fos.close();
     }
 
-    public ArrayList<Alarm> getAlarms() throws IOException, ClassNotFoundException {
-        ArrayList<Alarm> alarms = new ArrayList<Alarm>();
-        File directory = this.getFilesDir();
+    public static ArrayList<Alarm> getSavedAlarms(Context context) throws IOException, ClassNotFoundException {
+        ArrayList<Alarm> tempAlarms = new ArrayList<Alarm>();
+        File directory = context.getFilesDir();
         File file = new File(directory, "AlarmList.txt");
         Boolean keepGoing = true;
         FileInputStream fi = null;
         ObjectInputStream oi = null;
-        try{
+        try {
             fi = new FileInputStream(file);
             oi = new ObjectInputStream(fi);
-            while(keepGoing){
-                alarms.add((Alarm) oi.readObject());
+            while (keepGoing) {
+                tempAlarms.add((Alarm) oi.readObject());
             }
-        }
-        catch (EOFException e) {
+        } catch (EOFException e) {
             keepGoing = false;
         }
-        if(fi != null)
+        if (fi != null)
             fi.close();
-        if(oi != null)
+        if (oi != null)
             oi.close();
 
 
-        return alarms;
+        return tempAlarms;
     }
 
-
-
+    public static void deleteAlarm(Context context, Alarm a) {
+        alarms.remove(a);
+        AlarmReceiver.deleteAndroidAlarm(context, a);
+        saveFile(context);
+    }
 }

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
-    android:onClick="openSettings"
+    android:onClick="openEditSettings"
     app:cardBackgroundColor="@color/colorPrimaryDark"
     app:cardCornerRadius="0dp"
     app:cardElevation="8dp">
@@ -20,6 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <ImageButton
+                    android:onClick="onDelete"
                     android:layout_width="28dp"
                     android:layout_marginTop="12dp"
                     android:layout_marginLeft="2dp"
@@ -40,6 +41,7 @@
 
             <Switch
                 android:id="@+id/sw_enabled"
+                android:onClick="onToggle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|right"

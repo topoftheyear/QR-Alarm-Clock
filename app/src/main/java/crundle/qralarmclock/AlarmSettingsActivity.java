@@ -44,7 +44,6 @@ public class AlarmSettingsActivity extends AppCompatActivity {
                 }
             }
             TimePicker tp = (TimePicker) findViewById(R.id.timePicker1);
-            tp.setIs24HourView(true);
             LinearLayout daysView = (LinearLayout) findViewById(R.id.linearLayout2);
 
             //setting timepicker attributes of the alarm settings display

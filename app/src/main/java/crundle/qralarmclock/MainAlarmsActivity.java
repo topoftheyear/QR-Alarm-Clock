@@ -79,10 +79,27 @@ public class MainAlarmsActivity extends AppCompatActivity {
 
         TextView alarmTimeView = view.findViewById(R.id.tv_alarm_time);
         TextView alarmAmPmView = view.findViewById(R.id.am_pm);
-        String alarmHour = Character.toString(alarmTimeView.getText().charAt(0)) + Character.toString(alarmTimeView.getText().charAt(1));
-        String alarmMin = Character.toString(alarmTimeView.getText().charAt(3)) + Character.toString(alarmTimeView.getText().charAt(4));
-        if (alarmMin.length() == 1) {
-            alarmMin = "0" + alarmMin;
+        boolean single = false;
+        String first = Character.toString(alarmTimeView.getText().charAt(0));
+        String second = Character.toString(alarmTimeView.getText().charAt(1));
+        String third = Character.toString(alarmTimeView.getText().charAt(2));
+        String fourth = Character.toString(alarmTimeView.getText().charAt(3));
+        String fifth = null;
+        if(second.equals(":")) {
+            single = true;
+        }
+        else{
+            fifth = Character.toString(alarmTimeView.getText().charAt(4));
+        }
+        String alarmHour;
+        String alarmMin;
+        if(single){
+            alarmHour = first;
+            alarmMin = third + fourth;
+        }
+        else{
+            alarmHour = first + second;
+            alarmMin = fourth + fifth;
         }
         String amPM = alarmAmPmView.getText().toString();
         String alarmTime;
@@ -101,12 +118,30 @@ public class MainAlarmsActivity extends AppCompatActivity {
      * Refreshes the RecyclerView to display changes
      */
     public void onDelete(View view){
+
         TextView alarmTimeView = ((FrameLayout)view.getParent()).findViewById(R.id.tv_alarm_time);
         TextView alarmAmPmView = ((FrameLayout)view.getParent()).findViewById(R.id.am_pm);
-        String alarmHour = Character.toString(alarmTimeView.getText().charAt(0)) + Character.toString(alarmTimeView.getText().charAt(1));
-        String alarmMin = Character.toString(alarmTimeView.getText().charAt(3)) + Character.toString(alarmTimeView.getText().charAt(4));
-        if (alarmMin.length() == 1) {
-            alarmMin = "0" + alarmMin;
+        boolean single = false;
+        String first = Character.toString(alarmTimeView.getText().charAt(0));
+        String second = Character.toString(alarmTimeView.getText().charAt(1));
+        String third = Character.toString(alarmTimeView.getText().charAt(2));
+        String fourth = Character.toString(alarmTimeView.getText().charAt(3));
+        String fifth = null;
+        if(second.equals(":")) {
+            single = true;
+        }
+        else{
+            fifth = Character.toString(alarmTimeView.getText().charAt(4));
+        }
+        String alarmHour;
+        String alarmMin;
+        if(single){
+            alarmHour = first;
+            alarmMin = third + fourth;
+        }
+        else{
+            alarmHour = first + second;
+            alarmMin = fourth + fifth;
         }
         String amPM = alarmAmPmView.getText().toString();
         String alarmTime;
@@ -136,10 +171,27 @@ public class MainAlarmsActivity extends AppCompatActivity {
 
         TextView alarmTimeView = ((FrameLayout)view.getParent()).findViewById(R.id.tv_alarm_time);
         TextView alarmAmPmView = ((FrameLayout)view.getParent()).findViewById(R.id.am_pm);
-        String alarmHour = Character.toString(alarmTimeView.getText().charAt(0)) + Character.toString(alarmTimeView.getText().charAt(1));
-        String alarmMin = Character.toString(alarmTimeView.getText().charAt(3)) + Character.toString(alarmTimeView.getText().charAt(4));
-        if (alarmMin.length() == 1) {
-            alarmMin = "0" + alarmMin;
+        boolean single = false;
+        String first = Character.toString(alarmTimeView.getText().charAt(0));
+        String second = Character.toString(alarmTimeView.getText().charAt(1));
+        String third = Character.toString(alarmTimeView.getText().charAt(2));
+        String fourth = Character.toString(alarmTimeView.getText().charAt(3));
+        String fifth = null;
+        if(second.equals(":")) {
+            single = true;
+        }
+        else{
+            fifth = Character.toString(alarmTimeView.getText().charAt(4));
+        }
+        String alarmHour;
+        String alarmMin;
+        if(single){
+            alarmHour = first;
+            alarmMin = third + fourth;
+        }
+        else{
+            alarmHour = first + second;
+            alarmMin = fourth + fifth;
         }
         String amPM = alarmAmPmView.getText().toString();
         String alarmTime;

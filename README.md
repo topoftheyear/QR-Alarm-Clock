@@ -9,7 +9,7 @@ Clone and open in Android Studio. Build and run.
 ## Getting the QR Code
 
 Go here: https://www.qr-code-generator.com/
-Click the Text option and input "Alarm Stop"
+Click the Text option and input "Stop Alarm"
 Generate code and print it out.
 
 ## Built With

@@ -9,29 +9,16 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.icu.util.Calendar;
-import android.content.Context;
-import android.media.AudioAttributes;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
-//    Ringtone alarm = RingtoneManager.getRingtone(context, Uri.parse(a.getAlarm_id()));
-//    AudioAttributes aa = new AudioAttributes.Builder()
-//            .setUsage(AudioAttributes.USAGE_ALARM)
-//            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-//            .build();
-//    alarm.setAudioAttributes(aa);
-//    alarm.play();
+    /*
+     * Code that executes when the alarm time comes
+     */
     @Override
     public void onReceive(Context context, Intent intent) {
-
-        Intent intent_used = new Intent(context, ScanningCodeActivity.class);
-        context.startActivity(intent_used);
-
         Toast.makeText(context, "ITS WORKING", Toast.LENGTH_LONG).show();
         String alarmTime = intent.getStringExtra("time");
         Alarm a = new Alarm();
@@ -44,6 +31,9 @@ public class AlarmReceiver extends BroadcastReceiver {
         setAndroidAlarm(context, a);
     }
 
+    /*
+     * Sets the alarm in the Android System
+     */
     @TargetApi(24)
     public static void setAndroidAlarm(Context context, Alarm a) {
         boolean[] days = a.daysActive;
@@ -78,7 +68,6 @@ public class AlarmReceiver extends BroadcastReceiver {
             //final int _id = (int) System.currentTimeMillis();  //this id is used to set multiple alarms
             String id =Integer.toString(calender.get(Calendar.HOUR_OF_DAY)) + "0" + Integer.toString(calender.get(Calendar.MINUTE)) + "1" + Integer.toString(calender.get(Calendar.DAY_OF_WEEK)) + "2" + Integer.toString(calender.get(Calendar.AM_PM));
             int _id = Integer.parseInt(id);
-            Log.e("DEBUGGING", Integer.toString(_id));
             Intent intent = new Intent(context, AlarmReceiver.class);
             intent.putExtra("time", alarmTime);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, _id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -89,6 +78,10 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         }
     }
+
+    /*
+     * Deletes the alarm in the Android System
+     */
     @TargetApi(24)
     public static void deleteAndroidAlarm(Context context, Alarm a){
         boolean[] days = a.daysActive;

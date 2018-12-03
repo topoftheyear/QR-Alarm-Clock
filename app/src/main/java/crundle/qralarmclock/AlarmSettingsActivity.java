@@ -1,62 +1,40 @@
 package crundle.qralarmclock;
 
-import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Color;
-import android.icu.util.Calendar;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.*;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import static android.media.RingtoneManager.*;
-
-public class AlarmSettingsActivity extends AppCompatActivity{
+public class AlarmSettingsActivity extends AppCompatActivity {
     public static ArrayList<Alarm> alarms = new ArrayList<Alarm>();
     private Alarm currentAlarm = null;
     private Integer currentAlarmIndex = null;
-    
-    Spinner ringtonesSpinner;
-    String uri, id;
 
-
+    /*
+     * Sets the screen to the alarm settings page. It will set the information to display the proper
+     * information from the alarm object and be edit a selected alarm.
+     */
     @Override
     @TargetApi(23)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_settings);
-
-        ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-
-        RingtoneManager ringtoneMgr = new RingtoneManager(this);
-        ringtoneMgr.setType(RingtoneManager.TYPE_ALARM);
-        Cursor alarmsCursor = ringtoneMgr.getCursor();
-
-        String[] from = {alarmsCursor.getColumnName(RingtoneManager.TITLE_COLUMN_INDEX)};
-        int[] to = {android.R.id.text1};
-
-        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, alarmsCursor, from, to);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        ringtonesSpinner = (Spinner)findViewById(R.id.spinner);
-        ringtonesSpinner.setAdapter(adapter);
-        id = alarmsCursor.getString(RingtoneManager.ID_COLUMN_INDEX);
-        uri = alarmsCursor.getString(RingtoneManager.URI_COLUMN_INDEX);
-
         Intent intent = getIntent();
         if (intent.hasExtra("alarm")) {
             String alarmTime = intent.getStringExtra("alarm");
+            //finding the alarm being edited
             for (int i = 0; i < alarms.size(); i++) {
                 if (alarms.get(i).getAlarmTime().equals(alarmTime)) {
                     currentAlarm = alarms.get(i);
@@ -66,12 +44,14 @@ public class AlarmSettingsActivity extends AppCompatActivity{
             TimePicker tp = (TimePicker) findViewById(R.id.timePicker1);
             LinearLayout daysView = (LinearLayout) findViewById(R.id.linearLayout2);
 
+            //setting timepicker attributes of the alarm settings display
             if (currentAlarm.getAM())
                 tp.setHour(currentAlarm.getHour());
             else
                 tp.setHour(currentAlarm.getHour() + 12);
             tp.setMinute(currentAlarm.getMin());
 
+            //setting days active attributes of the alarm settings display
             boolean[] days = currentAlarm.daysActive;
             for (int i = 0; i < daysView.getChildCount(); i++) {
                 View v = daysView.getChildAt(i);
@@ -83,6 +63,7 @@ public class AlarmSettingsActivity extends AppCompatActivity{
 
             }
         } else {
+            //in the case of a new alarm being created
             currentAlarm = null;
             currentAlarmIndex = null;
         }
@@ -115,8 +96,9 @@ public class AlarmSettingsActivity extends AppCompatActivity{
         startActivity(intent);
     }
 
-    /* Save changes
-     *   - Update alarm's settings, go back to MainAlarmsActivity
+    /*
+     * Save changes
+     *   - Update alarm's settings, save file, go back to MainAlarmsActivity
      */
     public void save(View view){
         Alarm a = new Alarm();
@@ -144,9 +126,8 @@ public class AlarmSettingsActivity extends AppCompatActivity{
                 }
             }
         }
-        String uriString = (uri + "/" + id);
-        a.setAlarm_id(uriString);
 
+        //setting various alarm settings
         if (hour > 12) {
             a.setHour(hour - 12);
             a.setAM(false);
@@ -154,12 +135,13 @@ public class AlarmSettingsActivity extends AppCompatActivity{
             a.setHour(hour);
             a.setAM(true);
         }
-
         a.setMin(tp.getCurrentMinute());
         a.setAlarmTime(Integer.toString(tp.getCurrentHour()) + ":" + min);
-        Log.e("DEBUGGING", Integer.toString(tp.getCurrentHour()) + ":" + min);
+
+        //Message of successful alarm save
         Toast.makeText(this, "Alarm Saved", Toast.LENGTH_LONG).show();
 
+        //checks if an alarm with the same time exists and deletes it
         for (int i = 0; i < alarms.size(); i++) {
             if (alarms.get(i).getAlarmTime().equals(tp.getCurrentHour() + ":" + min)) {
                 deleteAlarm(this, alarms.get(i));
@@ -167,24 +149,31 @@ public class AlarmSettingsActivity extends AppCompatActivity{
             }
         }
 
+        //checks if the alarm was toggled off before editing, if so it remains off
         a.setActive(true);
         if (!(currentAlarm == null)) {
             a.setActive(currentAlarm.isActive());
             deleteAlarm(this, currentAlarm);
         }
         alarms.add(a);
+
+        //creates the Android alarm if it is active
         if(a.isActive()) {
             AlarmReceiver.setAndroidAlarm(this, a);
-
-            Log.e("DEBUGGING", "alarm set");
         }
+
+        //saving to file
         saveFile(this);
 
+        //return to Main Alarms Activity
         Intent intent;
         intent = new Intent(this, MainAlarmsActivity.class);
         startActivity(intent);
     }
 
+    /*
+     * Sorts and saves the alarms for use between sessions
+     */
     public static void saveFile(Context context) {
         Collections.sort(alarms);
 
@@ -207,6 +196,9 @@ public class AlarmSettingsActivity extends AppCompatActivity{
         }
     }
 
+    /*
+     * Returns an ArrayList of the alarms from the saved AlarmList file
+     */
     public static ArrayList<Alarm> getSavedAlarms(Context context) throws IOException, ClassNotFoundException {
         ArrayList<Alarm> tempAlarms = new ArrayList<Alarm>();
         File directory = context.getFilesDir();
@@ -232,6 +224,9 @@ public class AlarmSettingsActivity extends AppCompatActivity{
         return tempAlarms;
     }
 
+    /*
+     * Deletes an alarm from the internal list, the saved file, and the Android alarms
+     */
     public static void deleteAlarm(Context context, Alarm a) {
         alarms.remove(a);
         AlarmReceiver.deleteAndroidAlarm(context, a);

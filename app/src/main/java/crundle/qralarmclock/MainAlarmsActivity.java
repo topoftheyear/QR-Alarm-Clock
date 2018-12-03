@@ -48,6 +48,7 @@ public class MainAlarmsActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         setupRecyclerView();
+        ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.CAMERA}, 1);
 
     }
 
@@ -76,8 +77,22 @@ public class MainAlarmsActivity extends AppCompatActivity {
         Intent intent;
         intent = new Intent(this, AlarmSettingsActivity.class);
 
-        TextView timeView = view.findViewById(R.id.tv_alarm_time);
-        intent.putExtra("alarm", timeView.getText().toString());
+        TextView alarmTimeView = view.findViewById(R.id.tv_alarm_time);
+        TextView alarmAmPmView = view.findViewById(R.id.am_pm);
+        String alarmHour = Character.toString(alarmTimeView.getText().charAt(0)) + Character.toString(alarmTimeView.getText().charAt(1));
+        String alarmMin = Character.toString(alarmTimeView.getText().charAt(3)) + Character.toString(alarmTimeView.getText().charAt(4));
+        if (alarmMin.length() == 1) {
+            alarmMin = "0" + alarmMin;
+        }
+        String amPM = alarmAmPmView.getText().toString();
+        String alarmTime;
+
+        if(amPM.equals("AM"))
+            alarmTime = alarmHour + ":" + alarmMin;
+        else
+            alarmTime = Integer.toString(Integer.parseInt(alarmHour) + 12) + ":" + alarmMin;
+
+        intent.putExtra("alarm", alarmTime);
         startActivity(intent);
     }
 
@@ -87,7 +102,18 @@ public class MainAlarmsActivity extends AppCompatActivity {
      */
     public void onDelete(View view){
         TextView alarmTimeView = ((FrameLayout)view.getParent()).findViewById(R.id.tv_alarm_time);
-        String alarmTime = alarmTimeView.getText().toString();
+        TextView alarmAmPmView = ((FrameLayout)view.getParent()).findViewById(R.id.am_pm);
+        String alarmHour = Character.toString(alarmTimeView.getText().charAt(0)) + Character.toString(alarmTimeView.getText().charAt(1));
+        String alarmMin = Character.toString(alarmTimeView.getText().charAt(3)) + Character.toString(alarmTimeView.getText().charAt(4));
+        if (alarmMin.length() == 1) {
+            alarmMin = "0" + alarmMin;
+        }
+        String amPM = alarmAmPmView.getText().toString();
+        String alarmTime;
+        if(amPM.equals("AM"))
+            alarmTime = alarmHour + ":" + alarmMin;
+        else
+            alarmTime = Integer.toString(Integer.parseInt(alarmHour) + 12) + ":" + alarmMin;
         Alarm a = new Alarm();
         for(int i = 0; i < AlarmSettingsActivity.alarms.size(); i++){
             if(AlarmSettingsActivity.alarms.get(i).getAlarmTime().equals(alarmTime)){
@@ -109,7 +135,19 @@ public class MainAlarmsActivity extends AppCompatActivity {
 
 
         TextView alarmTimeView = ((FrameLayout)view.getParent()).findViewById(R.id.tv_alarm_time);
-        String alarmTime = alarmTimeView.getText().toString();
+        TextView alarmAmPmView = ((FrameLayout)view.getParent()).findViewById(R.id.am_pm);
+        String alarmHour = Character.toString(alarmTimeView.getText().charAt(0)) + Character.toString(alarmTimeView.getText().charAt(1));
+        String alarmMin = Character.toString(alarmTimeView.getText().charAt(3)) + Character.toString(alarmTimeView.getText().charAt(4));
+        if (alarmMin.length() == 1) {
+            alarmMin = "0" + alarmMin;
+        }
+        String amPM = alarmAmPmView.getText().toString();
+        String alarmTime;
+        if(amPM.equals("AM"))
+            alarmTime = alarmHour + ":" + alarmMin;
+        else
+            alarmTime = Integer.toString(Integer.parseInt(alarmHour) + 12) + ":" + alarmMin;
+
         Alarm a = new Alarm();
         for(int i = 0; i < AlarmSettingsActivity.alarms.size(); i++){
             if(AlarmSettingsActivity.alarms.get(i).getAlarmTime().equals(alarmTime)){

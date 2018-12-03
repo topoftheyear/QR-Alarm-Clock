@@ -31,8 +31,18 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
 
     @Override
     public void onBindViewHolder(@NonNull AlarmViewHolder alarmViewHolder, int i) {
-        alarmViewHolder.tvTime.setText(alarms.get(i).getAlarmTime());
+        String alarmMin = Integer.toString(alarms.get(i).getMin());
+
+        if (alarmMin.length() == 1) {
+            alarmMin = "0" + alarmMin;
+        }
+        alarmViewHolder.tvTime.setText(alarms.get(i).getHour() + ":" + alarmMin);
         alarmViewHolder.swEnabled.setChecked(alarms.get(i).isActive());
+        Boolean amOrPM = alarms.get(i).getAM();
+        if(amOrPM)
+            alarmViewHolder.amPM.setText("AM");
+        else
+            alarmViewHolder.amPM.setText("PM");
         boolean[] daysList = alarms.get(i).daysActive;
         for (int j = 0; j < alarmViewHolder.days.getChildCount(); j++) {
             View v = alarmViewHolder.days.getChildAt(j);
@@ -52,9 +62,11 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
         TextView tvTime;
         Switch swEnabled;
         LinearLayout days;
+        TextView amPM;
 
         public AlarmViewHolder(@NonNull View itemView) {
             super(itemView);
+            this.amPM = itemView.findViewById(R.id.am_pm);
             this.tvTime = itemView.findViewById(R.id.tv_alarm_time);
             this.swEnabled = itemView.findViewById(R.id.sw_enabled);
             this.days = itemView.findViewById(R.id.linearLayout3);

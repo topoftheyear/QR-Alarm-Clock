@@ -9,6 +9,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.icu.util.Calendar;
+import android.media.AudioAttributes;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -19,7 +23,7 @@ public class AlarmReceiver extends BroadcastReceiver {
      */
     @Override
     public void onReceive(Context context, Intent intent) {
-        Toast.makeText(context, "ITS WORKING", Toast.LENGTH_LONG).show();
+        //Toast.makeText(context, "ITS WORKING", Toast.LENGTH_LONG).show();
         String alarmTime = intent.getStringExtra("time");
         Alarm a = new Alarm();
         for(int i = 0; i < AlarmSettingsActivity.alarms.size(); i++){
@@ -29,6 +33,10 @@ public class AlarmReceiver extends BroadcastReceiver {
             }
         }
         setAndroidAlarm(context, a);
+        Intent intent_used = new Intent(context, ScanningCodeActivity.class);
+        context.startActivity(intent_used);
+
+
     }
 
     /*

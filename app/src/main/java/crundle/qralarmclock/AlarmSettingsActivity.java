@@ -1,17 +1,18 @@
 package crundle.qralarmclock;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
+import android.media.RingtoneManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.TimePicker;
-import android.widget.Toast;
+import android.widget.*;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -21,7 +22,8 @@ public class AlarmSettingsActivity extends AppCompatActivity {
     public static ArrayList<Alarm> alarms = new ArrayList<Alarm>();
     private Alarm currentAlarm = null;
     private Integer currentAlarmIndex = null;
-
+    private Spinner ringtonesSpinner;
+    private static String id, uri, uri_used;
     /*
      * Sets the screen to the alarm settings page. It will set the information to display the proper
      * information from the alarm object and be edit a selected alarm.
@@ -67,6 +69,22 @@ public class AlarmSettingsActivity extends AppCompatActivity {
             currentAlarm = null;
             currentAlarmIndex = null;
         }
+        ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+
+        RingtoneManager ringtoneMgr = new RingtoneManager(this);
+        ringtoneMgr.setType(RingtoneManager.TYPE_ALARM);
+        Cursor alarmsCursor = ringtoneMgr.getCursor();
+
+        String[] from = {alarmsCursor.getColumnName(RingtoneManager.TITLE_COLUMN_INDEX)};
+        int[] to = {android.R.id.text1};
+
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, alarmsCursor, from, to);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ringtonesSpinner = (Spinner)findViewById(R.id.spinner);
+        ringtonesSpinner.setAdapter(adapter);
+        id = alarmsCursor.getString(RingtoneManager.ID_COLUMN_INDEX);
+        uri = alarmsCursor.getString(RingtoneManager.URI_COLUMN_INDEX);
+        uri_used = alarmsCursor.getString(RingtoneManager.URI_COLUMN_INDEX) + "/" + alarmsCursor.getString(RingtoneManager.ID_COLUMN_INDEX);
     }
 
     /* Activate/Deactivate RepeatedDays
@@ -135,6 +153,9 @@ public class AlarmSettingsActivity extends AppCompatActivity {
             a.setHour(hour);
             a.setAM(true);
         }
+
+        a.setAlarm_id(uri_used);
+
         a.setMin(tp.getCurrentMinute());
         a.setAlarmTime(Integer.toString(tp.getCurrentHour()) + ":" + min);
 

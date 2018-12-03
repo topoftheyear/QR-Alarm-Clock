@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    >
+    tools:context=".QRScannerActivity">
 
     <Button
         android:layout_width="wrap_content"

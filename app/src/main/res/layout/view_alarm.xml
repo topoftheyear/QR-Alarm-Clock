@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
-    android:onClick="openSettings"
+    android:onClick="openEditSettings"
     app:cardBackgroundColor="@color/colorPrimaryDark"
     app:cardCornerRadius="0dp"
     app:cardElevation="8dp">
@@ -19,19 +19,29 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+            <ImageButton
+                    android:onClick="onDelete"
+                    android:layout_width="28dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_height="32dp"
+                    android:alpha="0.5"
+                    app:srcCompat="@android:drawable/ic_delete"
+                    android:id="@+id/imageButton" android:background="@android:color/black"/>
 
             <TextView
-                android:id="@+id/tv_alarm_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:text="XX:XX"
-                android:textColor="@android:color/white"
-                android:textSize="42sp"
-                android:textStyle="bold" />
+                    android:id="@+id/tv_alarm_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:text="XX:XX"
+                    android:textColor="@android:color/white"
+                    android:textSize="42sp"
+                    android:textStyle="bold"/>
 
             <Switch
                 android:id="@+id/sw_enabled"
+                android:onClick="onToggle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|right"
@@ -56,9 +66,7 @@
                 android:layout_marginStart="16dp"
                 android:text="Sun"
                 android:textColor="@color/dayNotSelected"
-                app:layout_constraintStart_toStartOf="parent"
-
-                app:layout_constraintTop_toBottomOf="@+id/textView5" />
+                app:layout_constraintStart_toStartOf="parent"/>
 
             <TextView
                 android:id="@+id/dayMon"
@@ -69,8 +77,7 @@
                 android:layout_marginStart="4dp"
                 android:text="Mon"
                 android:textColor="@color/daySelected"
-                app:layout_constraintStart_toEndOf="@+id/daySun"
-                app:layout_constraintTop_toBottomOf="@+id/textView5" />
+                app:layout_constraintStart_toEndOf="@+id/daySun"/>
 
             <TextView
                 android:id="@+id/dayTues"

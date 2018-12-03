@@ -60,30 +60,4 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
             this.days = itemView.findViewById(R.id.linearLayout3);
         }
     }
-
-    public static List<Alarm> getAlarms(Context context) throws IOException, ClassNotFoundException {
-        ArrayList<Alarm> alarms = new ArrayList<Alarm>();
-        File directory = context.getFilesDir();
-        File file = new File(directory, "AlarmList.txt");
-        Boolean keepGoing = true;
-        FileInputStream fi = null;
-        ObjectInputStream oi = null;
-        try{
-            fi = new FileInputStream(file);
-            oi = new ObjectInputStream(fi);
-            while(keepGoing){
-                alarms.add((Alarm) oi.readObject());
-            }
-        }
-        catch (EOFException e) {
-            keepGoing = false;
-        }
-        if(fi != null)
-            fi.close();
-        if(oi != null)
-            oi.close();
-
-
-        return alarms;
-    }
 }

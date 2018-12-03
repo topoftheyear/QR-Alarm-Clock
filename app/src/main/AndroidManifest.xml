@@ -31,8 +31,6 @@
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value=".MainAlarmsActivity"/>
         </activity>
-        <activity android:name=".AlarmManagerClass">
-        </activity>
         <receiver android:name=".AlarmReceiver" android:process=":remote">
         </receiver>
         <activity android:name=".ScanningCodeActivity">

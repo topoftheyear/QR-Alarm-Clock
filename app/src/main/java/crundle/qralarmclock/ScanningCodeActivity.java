@@ -19,9 +19,8 @@ public class ScanningCodeActivity extends AppCompatActivity implements ZXingScan
         ScannerView = new ZXingScannerView(this);
         setContentView(ScannerView);
         //Request permission to use the camera, something that has to be done in runtime post-Android 6.0
-        ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.CAMERA}, 1);
+        //ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.CAMERA}, 1);
         ScannerView.startCamera();
-
     }
     //Keeps the user from backing out of the scanner, thus defeating the purpose of the app
     public void onBackPressed() {

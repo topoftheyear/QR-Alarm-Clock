@@ -6,6 +6,12 @@ An alarm clock app that requires the user to scan a QR code to shut off the alar
 
 Clone and open in Android Studio. Build and run.
 
+## Getting the QR Code
+
+Go here: https://www.qr-code-generator.com/
+Click the Text option and input "Alarm Stop"
+Generate code and print it out.
+
 ## Built With
 
 * Android

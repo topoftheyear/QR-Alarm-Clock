@@ -7,10 +7,10 @@ import java.util.Date;
 import java.util.List;
 
 public class Alarm implements Comparable, Serializable {
-    private String alarmTime;
+    private String alarmTime; //string of the alarmTime in 24 hour format
     private boolean isActive;
-    private int hour;
-    private int min;
+    private int hour; //1-12
+    private int min; //0-60
     private boolean AM;
 
     // 0 = Sun, 1 = Mon, 2 = Tues, etc.

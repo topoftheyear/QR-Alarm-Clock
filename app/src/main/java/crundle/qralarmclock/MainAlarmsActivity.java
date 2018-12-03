@@ -1,8 +1,6 @@
 package crundle.qralarmclock;
-import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -43,14 +41,6 @@ public class MainAlarmsActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        try {
-            setupRecyclerView();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.CAMERA}, 1);
         setupRecyclerView();
     }
 

@@ -1,7 +1,5 @@
 package crundle.qralarmclock;
 
-import android.media.Ringtone;
-
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,7 +12,6 @@ public class Alarm implements Comparable, Serializable {
     private int hour; //1-12
     private int min; //0-60
     private boolean AM;
-    private String alarm_id;
 
     // 0 = Sun, 1 = Mon, 2 = Tues, etc.
     boolean[] daysActive = new boolean[]{false,false,false,false,false,false,false};
@@ -99,13 +96,5 @@ public class Alarm implements Comparable, Serializable {
         else
             result = 0;
         return result;
-    }
-
-    public String getAlarm_id() {
-        return alarm_id;
-    }
-
-    public void setAlarm_id(String alarm_id) {
-        this.alarm_id = alarm_id;
     }
 }
